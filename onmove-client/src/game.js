@@ -1,4 +1,7 @@
-import { Scene, PerspectiveCamera, WebGLRenderer, IcosahedronGeometry, MeshBasicMaterial, Mesh } from 'three';
+import {
+    Scene, PerspectiveCamera, WebGLRenderer,
+    IcosahedronGeometry, MeshBasicMaterial, Mesh
+} from 'three';
 
 
 const getDisplayParts = () => {
