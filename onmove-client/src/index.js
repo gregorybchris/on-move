@@ -1,10 +1,12 @@
-require('./style.css');
-require('./favicon.ico');
+require("./style.css");
+require("./favicon.ico");
 
-import { getDisplayParts } from './game.js';
+import { startGame } from "./game.js";
 
-let [renderer, animate] = getDisplayParts();
-animate();
+const io = require("socket.io-client");
+let socket = io("http://localhost:3000");
 
-// let container = document.getElementById('container');
-document.body.appendChild(renderer.domElement);
+let container = document.createElement("div");
+document.body.appendChild(container);
+
+startGame(document, window, requestAnimationFrame, container, socket);
