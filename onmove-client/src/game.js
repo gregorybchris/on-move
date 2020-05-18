@@ -88,6 +88,17 @@ class ClientState {
                 this.createPlayer(playerId, newPosition.x, newPosition.y);
             }
         }
+        // Clean up old players
+        let playersToClean = [];
+        for (let [playerId, mesh] of Object.entries(this.meshes)) {
+            if (!(playerId in positions)) {
+                playersToClean.push(playerId);
+            }
+        }
+        playersToClean.forEach((playerId) => {
+            this.scene.remove(this.meshes[playerId]);
+            delete this.meshes[playerId];
+        });
     }
 
     createPlayer(playerId, x, y) {

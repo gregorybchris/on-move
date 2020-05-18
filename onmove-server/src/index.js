@@ -19,6 +19,10 @@ class ServerState {
         this.positions[playerId] = position;
     }
 
+    removePlayer(playerId) {
+        delete this.positions[playerId];
+    }
+
     updatePlayer(playerId, data) {
         let [dx, dy] = [data.x, data.y];
         let position = this.positions[playerId];
@@ -41,6 +45,11 @@ io.on("connection", (socket) => {
     socket.on("move", data => {
         serverState.updatePlayer(socketId, data);
         io.emit("positions", serverState.positions);
+    });
+
+    socket.on("disconnect", function () {
+        console.log(`Player ${socketId} disconnected`);
+        serverState.removePlayer(socketId);
     });
 });
 
