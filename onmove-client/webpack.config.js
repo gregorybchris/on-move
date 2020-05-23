@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-export default {
+module.exports = {
     mode: "development",
     entry: {
         app: "./src/index.js",
