@@ -1,16 +1,16 @@
 require("./style.css");
 
-import { startGame } from "./game.js";
+import Game from "./game.js";
 
 const io = require("socket.io-client");
 
 const urlParams = new URLSearchParams(window.location.search);
 const defaultServerAddress = "http://localhost:3000";
-let serverAddress = urlParams.get("server");
-serverAddress = serverAddress || defaultServerAddress;
-let socket = io(serverAddress);
+const serverAddress = urlParams.get("server") || defaultServerAddress;
+let clientSocket = io(serverAddress);
 
-let container = document.createElement("div");
-document.body.appendChild(container);
+let graphicsElement = document.createElement("div");
+document.body.appendChild(graphicsElement);
 
-startGame(document, window, requestAnimationFrame, container, socket);
+const game = new Game(window, graphicsElement, clientSocket);
+game.start();
