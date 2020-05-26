@@ -18,7 +18,7 @@ export default class Game {
 
     start() {
         this.clientSocket.on("positions", positions => {
-            this.clientState.updatePlayers(positions);
+            this.clientState.updatePositions(positions);
         });
 
         let dt = 0;

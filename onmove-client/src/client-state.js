@@ -1,4 +1,4 @@
-import { forOwn, mapKeys, mapValues } from "lodash";
+import { filter, forOwn, keys, mapValues } from "lodash";
 
 export default class ClientState {
     constructor(clientGraphics) {
@@ -6,7 +6,7 @@ export default class ClientState {
         this.meshes = {};
     }
 
-    updatePlayers(positions) {
+    updatePositions(positions) {
         let oldPosition = null;
         forOwn(positions, (newPosition, playerId) => {
             if (playerId in this.meshes) {
@@ -14,17 +14,16 @@ export default class ClientState {
                 oldPosition.x = newPosition.x;
                 oldPosition.y = newPosition.y;
             }
-            else {
+            else
                 this.createPlayer(playerId, newPosition.x, newPosition.y);
-            }
         });
-        let playersToClean = [];
-        
-        mapKeys(this.meshes, (playerId) => {
-            if (!(playerId in positions))
-                playersToClean.push(playerId);
-        });
-        playersToClean.forEach((playerId) => {
+        this._updateActivePlayers(keys(positions));
+    }
+
+    _updateActivePlayers(newPlayerIds) {
+        let oldPlayerIds = keys(this.meshes);
+        let toClean = filter(oldPlayerIds, (pid) => !newPlayerIds.includes(pid));
+        toClean.forEach((playerId) => {
             this.clientGraphics.removeBall(this.meshes[playerId]);
             delete this.meshes[playerId];
         });
